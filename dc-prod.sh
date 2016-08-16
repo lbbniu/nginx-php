@@ -1,14 +1,14 @@
 #!/bin/bash
 #web网站的目录
-export WEBPATH=`pwd`/wwwroot
-export SERVERPATH=/lbbniu/wwwroot
+WEBPATH=`pwd`/wwwroot
+SERVERPATH=/lbbniu/wwwroot
 #容器名字
-export NAME=nginx-php
+NAME=nginx-php
 #镜像
-export DC_IMAGE=lbbniu/nginx-php
-export LOCAL_IMAGE=lbbniu/nginxphpserver
+DC_IMAGE=lbbniu/nginx-php
+LOCAL_IMAGE=lbbniu/nginxphpserver
 
-export filename=nginxphp.tar
+filename=nginxphp.tar
 if [ ! -e $filename.gz ]; then
 	wget http://cdn.vliang.com/nginxphp.tar.gz
 	echo "下载" $filename".gz 文件成功"
