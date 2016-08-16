@@ -9,8 +9,12 @@ export DC_IMAGE=lbbniu/nginx-php
 export LOCAL_IMAGE=lbbniu/nginxphpserver
 
 export filename=nginxphp.tar
+if [ ! -e $filename.gz ]; then
+	wget http://cdn.vliang.com/nginxphp.tar.gz
+	echo "下载" $filename".gz 文件成功"
+fi
+
 if [ ! -e $filename ];then
-    wget http://cdn.vliang.com/nginxphp.tar.gz
     tar zxf nginxphp.tar.gz
     echo "解压完成....."
 fi
