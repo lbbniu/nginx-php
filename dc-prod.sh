@@ -9,20 +9,34 @@ DC_IMAGE=lbbniu/nginx-php
 LOCAL_IMAGE=lbbniu/nginxphpserver
 
 filename=nginxphp.tar
+echo "开始构建......."
 if [ ! -e $filename.gz ]; then
 	wget http://cdn.vliang.com/nginxphp.tar.gz
 	echo "下载" $filename".gz 文件成功"
 fi
 
 if [ ! -e $filename ];then
-    tar zxf nginxphp.tar.gz
+    tar zxf filename.gz
     echo "解压完成....."
 fi
-docker rmi $LOCAL_IMAGE
-echo $LOCAL_IMAGE "镜像删除成功...."
-cat $filename | docker import - $LOCAL_IMAGE
-echo $LOCAL_IMAGE "镜像导入成功...."
 
+dcimages=`docker images`
+isbuild=true
+for image in $dcimages
+do
+	if [[ $image = $LOCAL_IMAGE ]]; then
+		#statements
+		isbuild=false
+		break
+	fi
+done
+
+#docker rmi $LOCAL_IMAGE
+#echo $LOCAL_IMAGE "镜像删除成功...."
+if [ $isbuild = true ]; then
+	cat $filename | docker import - $LOCAL_IMAGE
+	echo $LOCAL_IMAGE "镜像导入成功...."
+fi
 
 docker stop $NAME
 echo $NAME "容器停止......."
