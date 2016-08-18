@@ -41,7 +41,7 @@ fi
 #docker rmi -f $DC_IMAGE
 #echo $DC_IMAGE "镜像删除......."
 #如果没有镜像就构建镜像
-if [ ! "`docker images | grep $DC_IMAGE`" ]; then
+if  ! docker images | grep $DC_IMAGE ; then  #另一种条件写法
 	docker build -t $DC_IMAGE .
 	echo $DC_IMAGE "镜像构建成功......."
 fi
