@@ -20,32 +20,30 @@ if [ ! -e $filename ];then
     echo "解压完成....."
 fi
 
-dcimages=`docker images`
-isbuild=true
-for image in $dcimages
-do
-	if [[ $image = $LOCAL_IMAGE ]]; then
-		#statements
-		isbuild=false
-		break
-	fi
-done
-
 #docker rmi $LOCAL_IMAGE
 #echo $LOCAL_IMAGE "镜像删除成功...."
-if [ $isbuild = true ]; then
+if [ ! "`docker images | grep $LOCAL_IMAGE`" ]; then
 	cat $filename | docker import - $LOCAL_IMAGE
 	echo $LOCAL_IMAGE "镜像导入成功...."
 fi
+#判断容器是否运行
+if [ "`docker ps | grep $NAME`" ]; then
+	docker stop $NAME
+	echo $NAME "容器停止......."
+fi
+#判断是否有容器
+if [ "`docker ps -a | grep $NAME`" ]; then
+	docker rm -f $NAME
+	echo $NAME "容器删除......."
+fi
 
-docker stop $NAME
-echo $NAME "容器停止......."
-docker rm -f $NAME
-echo $NAME "容器删除......."
-
-docker rmi -f $DC_IMAGE
-echo $DC_IMAGE "镜像删除......."
-docker build -t $DC_IMAGE .
-echo $DC_IMAGE "镜像构建成功......."
+#删除镜像不需要了，如果修改了 Dockerfile ，可以自行删除，重新构建
+#docker rmi -f $DC_IMAGE
+#echo $DC_IMAGE "镜像删除......."
+#如果没有镜像就构建镜像
+if [ ! "`docker images | grep $DC_IMAGE`" ]; then
+	docker build -t $DC_IMAGE .
+	echo $DC_IMAGE "镜像构建成功......."
+fi
 docker run -d -p 80:80 -v $WEBPATH:$SERVERPATH --name $NAME $DC_IMAGE
 echo $NAME "启动成功 ....."
