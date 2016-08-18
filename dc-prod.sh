@@ -16,7 +16,7 @@ if [ ! -e $filename.gz ]; then
 fi
 
 if [ ! -e $filename ];then
-    tar zxf filename.gz
+    tar zxf $filename.gz
     echo "解压完成....."
 fi
 
