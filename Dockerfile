@@ -1,5 +1,5 @@
 
-FROM lbbniu/nginxphpserver
+FROM lbbniu/nginxphp
 
 MAINTAINER lbbniu lbbniu@gmail.com
 
@@ -23,6 +23,6 @@ RUN chmod 755 /lbbniu/run.sh && \
 	chmod 777 /lbbniu/logs && \
     echo "Asia/Shanghai" > /etc/timezone
 # 22 80
-EXPOSE 80
+EXPOSE 80 9503
 
 CMD ["/lbbniu/run.sh"]

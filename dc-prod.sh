@@ -45,5 +45,5 @@ if  ! docker images | grep $DC_IMAGE ; then  #另一种条件写法
 	docker build -t $DC_IMAGE .
 	echo $DC_IMAGE "镜像构建成功......."
 fi
-docker run -d -p 80:80 -v $WEBPATH:$SERVERPATH --name $NAME $DC_IMAGE
+docker run -d -p 80:80 -p 9503:9503 --link redis -v $WEBPATH:$SERVERPATH --name $NAME $DC_IMAGE
 echo $NAME "启动成功 ....."
